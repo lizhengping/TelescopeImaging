@@ -23,9 +23,6 @@ def kill(proc_pid):
         proc.kill()
         #process.kill()
 
-
-
-
 class control:
     def __init__(self, section="default"):
         keyboard=input('Turn on the devices press enter')
