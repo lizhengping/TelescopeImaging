@@ -105,6 +105,12 @@ class IT6322(VISAInstrument):
         self.outputStatuses = [o == '1' for o in os]
         return self.outputStatuses
 
+    # def getOutputStatus(self, channel):
+    #     os = self.scpi.APP.OUT.query()
+    #     os = os.split(', ')
+    #     self.outputStatuses = [o == '1' for o in os]
+    #     return self.getOutputStatuses[channel]
+
     def setOutputStatuses(self, outputStatuses):
         if len(outputStatuses) is not self.channelCount:
             raise DeviceException('Length of outputStatuses do not match the channel number.')
@@ -131,13 +137,13 @@ class IT6322(VISAInstrument):
 
 if __name__ == '__main__':
     print('BKPrecision_IT6322')
-    pm = IT6322('ASRL12::INSTR')
+    pm = IT6322('USB0::0xFFFF::0x6300::602071010707420029::INSTR')
     print(pm.getIdentity())
     pm.setVoltage(0,2)
     #pm.setOutputStatuses([False]*3)
     #pm.beeper()
     print(pm.getVoltageSetpoints())
-    pm.setOutputStatuses([True,True,False])
+    pm.setOutputStatuses([True,False,False])
     print(pm.measureVoltages())
     import time
     time.sleep(1000)

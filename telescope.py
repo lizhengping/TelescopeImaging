@@ -479,55 +479,56 @@ class Tele:
 
 
 if __name__=='__main__':
-    tele1=Tele('COM7')
+    tele1=Tele('COM3')
     print(tele1.get_Direction_Precise_uRad())
     time.sleep(1)
-    #oringnalState=tele1.get_Direction_Precise_uRad()
-    #tele1.point_At_uRad_Precise(oringnalState[0]-5000,oringnalState[1])
-    while False:
-            #dalte=random.randrange(-1000,1000)
-            tele1.point_At_uRad_Precise(oringnalState[0],oringnalState[1])
-            time.sleep(10)
-            dalte=1000
-            tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
-            time.sleep(10)
-            dalte=2000
-            tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
-            time.sleep(10)
-            dalte=3000
-            tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
-            time.sleep(10)
-    while False:
-        tele1.point_At_uRad_Precise(oringnalState[0],oringnalState[1])
-        time.sleep(10)
-        print("o")
-        #delta= random.randint(-1000, 1000)
-        tele1.A__urad_Cancelerror(oringnalState[0])
-        tele1.E__urad_Cancelerror(oringnalState[1])
-        dalte=1000
-        tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
-        print("A")
-        tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
-        print("E")
-        time.sleep(10)
-        dalte=2000
-        tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
-        print("A")
-        tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
-        print("E")
-        time.sleep(10)
-        dalte=3000
-        tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
-        print("A")
-        tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
-        print("E")
-        time.sleep(10)
-        dalte=4000
-        tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
-        print("A")
-        tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
-        print("E")
-        time.sleep(10)
+    oringnalState=tele1.get_Direction_Precise_uRad()
+    # tele1.point_At_uRad_Precise(oringnalState[0]+500000,oringnalState[1]+5000)
+    tele1.point_At_uRad_Precise( 25939.105793587714, 8015.199419513791)
+    # while False:
+    #         #dalte=random.randrange(-1000,1000)
+    #         tele1.point_At_uRad_Precise(oringnalState[0],oringnalState[1])
+    #         time.sleep(10)
+    #         dalte=1000
+    #         tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
+    #         time.sleep(10)
+    #         dalte=2000
+    #         tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
+    #         time.sleep(10)
+    #         dalte=3000
+    #         tele1.point_At_uRad_Precise(oringnalState[0]+dalte,oringnalState[1]+dalte)
+    #         time.sleep(10)
+    # while False:
+    #     tele1.point_At_uRad_Precise(oringnalState[0],oringnalState[1])
+    #     time.sleep(10)
+    #     print("o")
+    #     #delta= random.randint(-1000, 1000)
+    #     tele1.A__urad_Cancelerror(oringnalState[0])
+    #     tele1.E__urad_Cancelerror(oringnalState[1])
+    #     dalte=1000
+    #     tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
+    #     print("A")
+    #     tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
+    #     print("E")
+    #     time.sleep(10)
+    #     dalte=2000
+    #     tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
+    #     print("A")
+    #     tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
+    #     print("E")
+    #     time.sleep(10)
+    #     dalte=3000
+    #     tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
+    #     print("A")
+    #     tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
+    #     print("E")
+    #     time.sleep(10)
+    #     dalte=4000
+    #     tele1.A__urad_Cancelerror(oringnalState[0]+dalte)
+    #     print("A")
+    #     tele1.E__urad_Cancelerror(oringnalState[1]+dalte)
+    #     print("E")
+    #     time.sleep(10)
 
 
     #while True:

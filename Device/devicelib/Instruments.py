@@ -29,12 +29,12 @@ class VISAInstrument:
 
     def verifyIdentity(self):
         idns = self.getIdentity()
-        if ((idns[0] == self.__class__.manufacturer)) and ((idns[1] ==self.__class__.model)):
-            self.serialNumber = idns[2]
-            self.version = idns[3]
-            self.maxChannelNum = 1
-        else:
-            raise DeviceException('Identity {} not recognized.'.format(idns))
+        # if ((idns[0] == self.__class__.manufacturer)) and ((idns[1] ==self.__class__.model)):
+        #     self.serialNumber = idns[2]
+        #     self.version = idns[3]
+        #     self.maxChannelNum = 1
+        # else:
+        #     raise DeviceException('Identity {} not recognized.'.format(idns))
 
     def checkChannel(self, channel):
         if channel>=0 and channel < self.channelCount:

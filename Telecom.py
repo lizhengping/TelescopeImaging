@@ -6,6 +6,7 @@ class TeleSerial:
     def __init__(self,com='COM2'):
         #串口初始化配置
         #串口设置相关变量
+
         self.ser = Serial()
         self.port = com
         self.baudrate =9600
@@ -105,6 +106,11 @@ class TeleSerial:
     def Send(self,context):
         #print(str.encode(context1))
         n = self.ser.write( bytes(context, encoding = "utf8"))
+
+
+    def Send_signal(self,width=1):
+        self.ser.write(b'\x80')
+
 
     def open(self):
         self.ser.open()

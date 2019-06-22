@@ -18,21 +18,29 @@ def getConfig(option,section="default"):
     if type(option)==type('string'):
         return eval(conf.get(section,option))
 
-def setConfig():
-    # 写配置文件
+def setConfig(option,optionValue,section="default"):
+    # if type(option) == type([]):
+    #     for i in option:
+    #         optionValue.append(eval(conf.get(section, i)))
+    #     if len(optionValue) == 1:
+    #         return optionValue[0]
+    #     else:
+    #         conf.set(section,option, optionValue)
+    if type(option) == type('string'):
+        conf.set(section, option, str(optionValue))
 
     # 更新指定section, option的值
-    conf.set("section2", "port", "8081")
+    # conf.set("section2", "port", "8081")
 
     # 写入指定section, 增加新option的值
-    conf.set("section2", "IEPort", "80")
+    # conf.set("section2", "IEPort", "80")
 
     # 添加新的 section
-    conf.add_section("new_section")
-    conf.set("new_section", "new_option", "http://www.cnblogs.com/tankxiao")
+    # conf.add_section("new_section")
+    # conf.set("new_section", "new_option", "http://www.cnblogs.com/tankxiao")
 
     # 写回配置文件
-    conf.write(open("c:\\test.conf", "w"))
+    conf.write(open("config.cfg", "w"))
 
 
 if __name__ == '__main__':

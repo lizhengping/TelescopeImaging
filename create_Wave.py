@@ -10,8 +10,11 @@ class wavexy:
         self.Max = 10
         self.mid = 5
         self.Min = 0
-        self.maxmrad = 10
-        self.stepVoltage = (step_urad*14 / 1000) * (self.maxmrad / self.Max)
+        # self.maxmrad = 10
+        # self.stepVoltage = (step_urad*14 / 1000) * (self.maxmrad / self.Max)
+        # self.stepVoltage=1
+        self.AFG_DataMax=16382
+        self.stepVoltage = self.AFG_DataMax/(xNum-1)
         self.stepTime = pixtime_ms #每一帧的时间5ms
         self.riseTime = riseTime   #每一step的riseTime
         self.startTime = 0  #每一帧开始的start time
@@ -23,6 +26,8 @@ class wavexy:
 
     def getPeriod(self):
         self.period = ((self.riseTime + self.stepTime) * (self.xNum * self.yNum) + self.startTime) * self.magnify
+        print(self.riseTime,self.stepTime,self.xNum,self.yNum,self.startTime,self.magnify)
+        print(self.yNum)
         return self.period
 
     def getFrequency(self):
@@ -36,12 +41,12 @@ class wavexy:
         V2 = 0
 
         for i in range(self.yNum):
-            w2 += [i * self.stepVoltage] * (self.riseTime + self.stepTime) * self.xNum
+            w2 += [int(i * self.stepVoltage)] * (self.riseTime + self.stepTime) * self.xNum
 
         for j in range(self.xNum):
             w1 += [V1] * self.riseTime
             w1 += [V1] * self.stepTime
-            V1 += self.stepVoltage
+            V1 = int(V1+self.stepVoltage)
 
         c = [i for i in w1]
         c.reverse()
@@ -50,7 +55,7 @@ class wavexy:
         if (self.yNum % 2) == 0:
             w1 = w3 * int(self.yNum / 2)
         if (self.yNum % 2) == 1:
-            w1 = w3 * (self.yNum / 2) + w1
+            w1 = w3 * int(self.yNum / 2) + w1
 
         w1 = [0] * self.startTime + w1
         w2 = [0] * self.startTime + w2
@@ -64,7 +69,7 @@ class wavexy:
 
 if __name__ == '__main__':
     ##23urad!!!
-    wave = wavexy(32, 32, 23, 5,5)
+    wave = wavexy(64,64,1,1,0)
     w = wave.generate()
     print('Wave period is ' ,wave.period)
     print('Wave frequency is ',wave.frequency)
@@ -89,6 +94,5 @@ if __name__ == '__main__':
 
     file1 = open('./wave/tfw1.csv', 'r')
     for line in file1:
-        s=file1.readline()
-        print(s[:-1])
+        print(line[:-1])
     file1.close()
