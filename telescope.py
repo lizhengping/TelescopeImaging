@@ -482,9 +482,11 @@ if __name__=='__main__':
     tele1=Tele('COM3')
     print(tele1.get_Direction_Precise_uRad())
     time.sleep(1)
-    oringnalState=tele1.get_Direction_Precise_uRad()
+    oringnalState=[3722.9743682546773, 554.2704018727414]
+        #tele1.get_Direction_Precise_uRad()
+    tele1.point_At_uRad_Precise(oringnalState[0], oringnalState[1])
     # tele1.point_At_uRad_Precise(oringnalState[0]+500000,oringnalState[1]+5000)
-    tele1.point_At_uRad_Precise( 25939.105793587714, 8015.199419513791)
+    #tele1.point_At_uRad_Precise( 25939.105793587714, 8015.199419513791)
     # while False:
     #         #dalte=random.randrange(-1000,1000)
     #         tele1.point_At_uRad_Precise(oringnalState[0],oringnalState[1])

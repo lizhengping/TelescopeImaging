@@ -192,13 +192,16 @@ if __name__ ==  "__main__":
     # app = application.Application()
     # dlg_spec = app.connect(title ='AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi')
     # dlg_spec.print_control_identifiers()
-   while True:
+ #  while True:
     #try:
             app = application.Application()
             dlg_spec = app.connect(title='AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi')  # 1
             #dlg_spec.window(title_re=u"浏览文件夹").window(title=u"确定").click()
             app.window(title='AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi').print_control_identifiers()
+            app.window(title='AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi').maximize()
+
             if app.window(title=r'浏览文件夹',class_name='#32770').exists():
+                app.window(title=u"浏览文件夹").print_control_identifiers()
                 print('you')
                 if dlg_spec.window(title_re=u"浏览文件夹").exists():
                     print('you')
@@ -209,15 +212,15 @@ if __name__ ==  "__main__":
             app['AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi'].menu_select(u"捕捉->拍照->文件夹")
             #dlg_spec.menu_select(u"捕捉->拍照->文件夹")
             #dlg_spec['AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi'][u"捕捉"][u"拍照"][u"文件"].cleck()
-            dlg_spec.window(title_re=u"浏览文件夹").edit.set_text('D:\\lidar\\program\\Plot\\photos\\'+'Stable_test2')
+            dlg_spec.window(title_re=u"浏览文件夹").edit.set_text('D:\\lidar\\program\\Plot\\photos\\'+'Stable_test4')
             dlg_spec.window(title_re=u"浏览文件夹").window(title=u"确定").click()
             app['AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi']['ActiveMovie WindowVideoRenderer'].type_keys('^l')
             dlg_spec.window(title='AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi').minimize()
-            time.sleep(10*60)
+            #time.sleep(10*60)
    # except:
             #print('fail')
             #time.sleep(10*60)
-            pass
+            #pass
 #
 # dlg_spec = app['AMCap - C:\\Users\\Administrator\\Documents\\ZWO\\1.avi']
 #     dlg_spec.print_control_identifiers()
