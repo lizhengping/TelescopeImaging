@@ -23,7 +23,7 @@ class Session:
         self.__firstConnectionSemaphore = threading.Semaphore(0)
         self.__firstConnectionSemaphoreReleased = False
 
-    def start(self, async=False):
+    def start(self, async1=False):
         def connectionLoop():
             while True:
                 try:
@@ -37,14 +37,14 @@ class Session:
         threading._start_new_thread(connectionLoop, ())
 
         self.__firstConnectionSemaphore.acquire()
-        if not async:
+        if not async1:
             while True:
                 time.sleep(1000)
 
-    def request(self, message, async=False, communicator=None):
+    def request(self, message, async1=False, communicator=None):
         if message.getType() is not Message.Type.Request:
             raise
-        if async:
+        if async1:
             # TODO sync only for now
             raise
         else:

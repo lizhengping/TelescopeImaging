@@ -13,10 +13,12 @@ from Device.ITECH_IT6322 import IT6322
 from create_Wave import *
 from takephoto import camera
 # import const
-from telescope import *
+# from telescope import *
+from TeleMotion import *
 import signal
 import psutil
 import scanMirror
+import MotionJog
 import Camera_image_save
 
 
@@ -49,7 +51,8 @@ class control:
         self.pixeltime_ms = getConfig(['pixeltime_ms'])
         self.pixel_waittime_ms = getConfig(['pixel_waittime_ms'])
         self.IsOld=getConfig(['IsOld'])
-        self.telescopeCOM = getConfig(['telescopeCOM'])  # 望远镜串口
+        self.telescopeCOM_A = getConfig(['telescopeCOM_A'])  # 望远镜串口
+        self.telescopeCOM_E= getConfig(['telescopeCOM_E'])
         self.PiCOM = getConfig(['PiCOM'])  # pi无线蓝牙串口
         self.SignalID = getConfig(["SPI_ID"])
         self.Signal_regularID=getConfig('SL_ID')
@@ -62,9 +65,6 @@ class control:
         self.G_begin=getConfig('G_begin_ns')
         self.G_end=getConfig('G_end_ns')
         self.factor=getConfig('factor')
-
-        # if (self.scanMode==1):
-        #     self.mode=3
         self.step = getConfig(['step'])
 
 
@@ -95,47 +95,46 @@ class control:
             self.sublinetime = self.AFG_period / 1000 + 1
 
         print("AFG_period should be {}s".format(self.AFG_period/1000))
-
         # photoTime = int(getConfig(['subsize']) * (getConfig(['pixeltime_ms']) + getConfig(['pixel_waittime_ms']))/1000)+2
         #print("subTakingtime is {}".format( self.subTakingtime))
 
-
     def JTDCOpen(self):
         os.chdir('D:\\lidar\\program\\Dataprocess\\run')
-        #shell_cmd = "run.bat"
-        shell_cmd='java -Xmx20000M -classpath ../JTDC/target/classes;xchart-2.5.1.jar;jscience-4.3.1.jar com.hydra.test.groundtdcserver.AppFrame'
+        #shell_cmd = "run.bat"  -Xmx10000M
+        shell_cmd='java  -classpath ../JTDC/target/classes;xchart-2.5.1.jar;jscience-4.3.1.jar com.hydra.test.groundtdcserver.AppFrame'
         #shell_cmd=shell_cmd+' {} {} {}'.format(4096,10,0)
         ms2ps=1000000000
         shell_cmd = shell_cmd + ' {} {} {} {}'.format(self.subsize, int(self.pixeltime_ms*ms2ps), self.pixel_waittime_ms,self.scanMode)
+        print(shell_cmd)
         cmd = shlex.split(shell_cmd)
         print (cmd)
         #r = subprocess.check_output(["cmd.exe", "/c", "python try.py"])
         self.p = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         while self.p.poll() is None:
             line = self.p.stdout.readline()
-            line=str(line,'utf8')
+            # line=str(line,'utf8')
             print(line)
-            if "4\r\n" in line:
-                # print("JTDC is processing")
-                self.TDC_state="JTDC is processing"
-            if "Connected"in line:
-                print("TDC Connected")
-                self.TDC_state="TDC Connected"
-            if  "folderName is"in line:
-                self.folderName=line[14:]
-                print("folderName is "+self.folderName)
-            if "Data output Num:"in line:
-                Num=int(line[16:-2])
-                print(Num)
-                if Num==self.xSubPic*self.ySubPic:
-                    self.TDC_state="Photos are over"
-                    time.sleep(3)
-                    self.kill(self.p.pid)
-            if "TDC tube is open" in line:
-                print("TDC tube is open")
-                self.TDC_state="TDC tube is open"
-            if "pixelsTimes" in line:
-                self.filepath=line
+            # if "4\r\n" in line:
+            #     # print("JTDC is processing")
+            #     self.TDC_state="JTDC is processing"
+            # if "Connected"in line:
+            #     print("TDC Connected")
+            #     self.TDC_state="TDC Connected"
+            # if  "folderName is"in line:
+            #     self.folderName=line[14:]
+            #     print("folderName is "+self.folderName)
+            # if "Data output Num:"in line:
+            #     Num=int(line[16:-2])
+            #     print(Num)
+            #     if Num==self.xSubPic*self.ySubPic:
+            #         self.TDC_state="Photos are over"
+            #         time.sleep(3)
+            #         self.kill(self.p.pid)
+            # if "TDC tube is open" in line:
+            #     print("TDC tube is open")
+            #     self.TDC_state="TDC tube is open"
+            # if "pixelsTimes" in line:
+            #     self.filepath=line
 
 
 
@@ -195,9 +194,6 @@ class control:
         # self.Signal_regular.setStatusCh2('On')
         # self.Signal_reflash()
         self.Signal_setPiwave()
-
-
-
     # def SignalInit_detail(self):
     #     ID=getConfig(["SPI_ID"])
     #     CH1_V=getConfig(["SPI_CH1_High","SPI_CH1_Low"])
@@ -238,7 +234,7 @@ class control:
 
     def CamInit(self):
         self.get_subTakingtime()
-        self.cam = camera(self.telescopeCOM,self.PiCOM)
+        self.cam = camera(self.telescopeCOM_A,self.telescopeCOM_E,self.PiCOM)
 
 
     def Signal_setPiwave(self):
@@ -374,13 +370,25 @@ class control:
             #time.sleep(2)
             #print(self.folderName)
             # Camera_image_save.try_to_save_image(self.folderName)
-            keyboard = input('Check the devices and press enter to image\n')
-            self.take_photo()
+            # keyboard = input('Check the devices and press enter to image\n')
+            # if keyboard=='im':
+            threading._start_new_thread(self.wait_for_Keyboard_cmd, ())
 
 
+
+    def wait_for_Keyboard_cmd(self):
+        self.im_alrealy=0
+        a = input('Your cmd\n')
+        if a == 'im':
+            if self.im_alrealy == 0:
+                self.im_alrealy = 1
+                self.take_photo()
+                self.wholePic(self.folderName)
+        if a == 'M':
+            threading._start_new_thread(MotionJog.show, (self.cam.tele1.A,self.cam.tele1.E,False))
             # if self.TDC_state == 'Photos are over':
             #     print('waiting for the wholepicture')
-            self.wholePic(self.folderName)
+
 
 def main_run():
     Control = control()
@@ -389,8 +397,10 @@ if __name__ == '__main__':
 
     # Control=control()
     # Control.Go()
-    threading._start_new_thread(main_run,())
-    print('start')
+    main_run()
+    # threading._start_new_thread(main_run,())
+
+    # print('start')
     while True:
         pass
 

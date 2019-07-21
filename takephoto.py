@@ -1,16 +1,18 @@
-from telescope import *
+# from telescope import *
+from TeleMotion import *
+from MotionCom import *
 import threading
 from Tool import *
 from PIL import Image,ImageGrab
 # import time
 
 class camera:
-    def __init__(self, com0='COM2',com1='COM5'):
-        self.tele1 = Tele(com0)
-        self.state_deg = self.tele1.get_Direction_Precise()
+    def __init__(self, com0='COM4',com1='COM3',com2='COM5'):
+        self.tele1 = Tele(com0,com1)
+        self.state_deg = self.tele1.get_Direction_Precise_Deg()
         self.state_urad = self.tele1.get_Direction_Precise_uRad()
         self.running = True
-        self.subPictureSignal=TeleSerial(com1)
+        self.subPictureSignal=Servotronix(com2)
 
 
     def takePhoto(self,xNum, yNum,step_urad, photoTime,precision_urad=5):

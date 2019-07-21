@@ -9,9 +9,9 @@ class InstrumentServer:
         self.services = services
         self.invokers = invokers
 
-    def start(self, async=False):
+    def start(self, async1=False):
         self.session = Session(self.name, self.address, self.services, self.invokers)
-        self.session.start(async)
+        self.session.start(async1)
 
     def sendMessageLaser(self, messae):
         raise

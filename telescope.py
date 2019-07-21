@@ -440,7 +440,7 @@ class Tele:
        speed = 300
        count = 0
        diff = 0
-       if abs(destination) < QPi_urad:
+       if abs(destination) < Pi_urad:
            while abs(speed)>precision_deg:
                 gotime =0.35
                 count=count+1
