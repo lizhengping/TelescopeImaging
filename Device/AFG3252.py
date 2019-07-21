@@ -84,6 +84,21 @@ class AFG3252:
     def getDelayCh2(self):
         return  float(self.rm.query('SOURce2:PULSe:DELay?'))*1000000000
 
+     # in ns
+    def setDelayCh1_s(self, delay):
+        self.rm.write('SOURce1:PULSe:DELay {}ns'.format(delay))
+
+    def getDelayCh1_s(self):
+        return float(self.rm.query('SOURce1:PULSe:DELay?'))
+
+    def setDelayCh2_ns(self, delay):
+        self.rm.write('SOURce2:PULSe:DELay {}ns'.format(delay))
+
+    def getDelayCh2_s(self):
+        return float(self.rm.query('SOURce2:PULSe:DELay?'))
+
+    # in ns
+
     def setHighLevelCh2(self,High):
         self.rm.write('source2:VOLTage:LEVel:IMMediate:HIGH %.6f' % (High))
 
@@ -107,10 +122,10 @@ class AFG3252:
         self.rm.write("SOURCE2:FREQUENCY "+str(frequency))
 
     def setPeriodCh1_ms(self,period):
-        self.rm.write("SOURce1:PULSe:PERiod "+str(period)+" ms")
+        self.rm.write("SOURce1:PULSe:PERiod "+str(period)+"ms")
 
     def setPeriodCh2_ms(self,period):
-        self.rm.write("SOURce2:PULSe:PERiod "+str(period)+" ms")
+        self.rm.write("SOURce2:PULSe:PERiod "+str(period)+"ms")
 
     def getPeriodCh1(self):
         return float(self.rm.query('SOURce1:PULSe:PERiod?'))
@@ -133,6 +148,9 @@ class AFG3252:
              self.rm.write('SOURce2:FUNCtion:SHAPe USER{}'.format(user))
         else:
              self.rm.write('SOURce2:FUNCtion:SHAPe EMEMory2')
+
+    def InitiatePhase(self):
+        self.rm.write('SOURce1: PHASe:INITiate')
 
 
     # def setCh1WaveTime_ms_Old(self,period,user=1):
